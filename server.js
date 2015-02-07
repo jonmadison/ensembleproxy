@@ -28,7 +28,7 @@ Cylon.robot({
     my.led.brightness(brightness)
 
     every((sensorConfig.stretch.pollIntervalSeconds).second(), function() {
-      analogValue = my.sensor.analogRead();
+      analogValue = my.stretch.analogRead();
       console.log('Analog value => ', analogValue);
       // make http call to our 
       //POST http://sensorserver.herokuapp.com/Compositions/1/Notes
