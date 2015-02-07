@@ -1,7 +1,7 @@
 module.exports = {
   "led": {
     "description":"red led",
-    "pins": [ 13 ],
+    "pins": [ 9 ],
     "driver": "led"
   },
   "stretch": {
