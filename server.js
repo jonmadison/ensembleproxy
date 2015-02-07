@@ -20,7 +20,7 @@ Cylon.robot({
   },
 
   work: function(my) {
-    var logslider = require('./logslider')(devices.stretch.lowerLimit,devices.stretch.upperLimit)
+    var logslider = require('./logslider')(my.devices.stretch.lowerLimit,my.devices.stretch.upperLimit)
     var analogValue = 0;
     var brightness = 0;
     my.led.brightness(brightness)
