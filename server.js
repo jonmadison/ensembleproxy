@@ -21,7 +21,7 @@ Cylon.robot({
 
   work: function(my) {
     console.log("led on pin: " + my.led.pin)
-    console.log("stretch on pin: " + my.led.pin)
+    console.log("stretch on pin: " + my.stretch.pin)
     var logslider = require('./logslider')(my.devices.stretch.lowerLimit,my.devices.stretch.upperLimit)
     var analogValue = 0;
     var brightness = 0;
@@ -38,12 +38,12 @@ Cylon.robot({
       my.led.brightness(noteValue)
     });
 
-    my.sensor.on('lowerLimit', function(val) {
+    my.stretch.on('lowerLimit', function(val) {
       console.log("Lower limit reached!");
       console.log('Analog value => ', val);
     });
 
-    my.sensor.on('upperLimit', function(val) {
+    my.stretch.on('upperLimit', function(val) {
       console.log("Upper limit reached!");
       console.log('Analog value => ', val);
     });
