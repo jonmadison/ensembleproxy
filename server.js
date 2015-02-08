@@ -33,7 +33,7 @@ Cylon.robot({
       // make http call to our 
       //POST http://sensorserver.herokuapp.com/Compositions/1/Notes
 
-      var noteValue = logslider(analogValue)
+      var noteValue = logslider.logslider(analogValue)
       console.log('note value => ', noteValue);
       my.led.brightness(noteValue)
     });
