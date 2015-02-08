@@ -1,6 +1,7 @@
 var Cylon = require('cylon')
 var sensorConfig = require('./config/sensors')
 var rest = require('restler')
+var server = require('./config/sensorserver')
 
 Cylon.robot({
   connections: {
@@ -35,8 +36,9 @@ Cylon.robot({
       // make http call to our 
       //POST http://sensorserver.herokuapp.com/Compositions/1/Notes
       var noteValue = logslider.logslider(analogValue)
-
-      rest.post('http://sensorserver.herokuapp.com/Compositions/1/Notes', {
+      
+      console.log("posting to URL" + server.url + server.notes)
+      rest.post(server.url + server.notes, {
         data: {
           value: noteValue,
           sensor_type: my.devices.stretch.description,
