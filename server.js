@@ -14,8 +14,8 @@ Cylon.robot({
     stretch: { 
               driver: sensorConfig.stretch.driver, 
               pin: sensorConfig.stretch.pins[0], 
-              lowerLimit: 50, 
-              upperLimit: 200 
+              lowerLimit: 170, 
+              upperLimit: 210 
     }
   },
 

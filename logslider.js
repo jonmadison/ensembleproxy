@@ -6,7 +6,6 @@ module.exports = function(min,max) {
             var minp = 0;
             var maxp = 100;
 
-            // The result should be between 100 an 10000000
             var minv = Math.log(min);
             var maxv = Math.log(max);
 
