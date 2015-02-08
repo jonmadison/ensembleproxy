@@ -1,8 +1,59 @@
 var Cylon = require('cylon')
+var config = require('./config/config')
 var sensors = require('./config/sensors')
 var outputs = require('./config/outputs')
 var server = require('./config/sensorserver')
 var poster = require('./poster')
+
+
+var readSensor = function(sensor) { 
+  if(!sensor) return
+  // console.log("readSensor from sensor " + JSON.stringify(sensor))
+  var logslider = require('./logslider')(sensor.lowerLimit,sensor.upperLimit,1,500)
+  var value = sensor.analogRead();
+  var noteValue = value*5
+  console.log(sensor.name + ' noteValue => ', noteValue);
+
+  sensor.on('lowerLimit', function(val) {
+    console.log("Lower limit reached!");
+    console.log('Analog value => ', val);
+  });
+
+  sensor.on('upperLimit', function(val) {
+    console.log("Upper limit reached!");
+    console.log('Analog value => ', val);
+  });
+  return noteValue
+}
+
+var readAllSensors = function(my) {
+  for(var sensorName in sensors) {
+    var value = 0;
+    var sensor = sensors[sensorName];
+
+    if(!sensors.hasOwnProperty(sensorName)) continue
+    if(sensors[sensorName].enabled) {
+      val = readSensor(my[sensorName])
+      console.log('value => ', val);     
+      postSensorReading(sensor,val)
+    }
+  }
+}
+
+var postSensorReading = function(sensor,reading) {
+  var note = {
+    value: reading,
+    sensor_type: sensor.description,
+    time: (new Date()).getTime()
+  }
+
+  console.log("posting " + JSON.stringify(note) + " to URL" + server.url + server.notes)
+  poster.postNote(note,function(err){
+    if(err) {
+      console.log("error posting: " + JSON.stringify(err))
+    }
+  })
+}
 
 Cylon.robot({
   connections: {
@@ -29,74 +80,9 @@ Cylon.robot({
   },
 
   work: function(my) {
-    console.log("led on pin: " + my.led.pin)
-    console.log("stretch on pin: " + my.stretch.pin)
-    var stretchValue = 0;
-    var flexValue = 0;
-    var brightness = 0;
-    my.led.brightness(brightness)
-
-    every((sensors.pollIntervalSeconds).second(), function() {
-      if(sensors.stretch.enabled) {
-        var logslider = require('./logslider')(my.devices.stretch.lowerLimit,my.devices.stretch.upperLimit,1,1000)
-        stretchValue = my.stretch.analogRead();
-        console.log('stretch value => ', stretchValue);
-        var stretchNoteValue = logslider.logslider(stretchValue)
-        var note = {
-          value: stretchNoteValue,
-          sensor_type: sensors.stretch.description,
-          time: (new Date()).getTime()
-        }
-
-        console.log("posting " + JSON.stringify(note) + " to URL" + server.url + server.notes)
-        poster.postNote(note,function(err){
-          if(err) {
-            console.log("error posting stretch sensor note: " + JSON.stringify(err))
-          }
-        })
-        my.stretch.on('lowerLimit', function(val) {
-          console.log("Lower limit reached!");
-          console.log('Analog value => ', val);
-        });
-
-        my.stretch.on('upperLimit', function(val) {
-          console.log("Upper limit reached!");
-          console.log('Analog value => ', val);
-        });
-      }
-
-      if(sensors.flex.enabled) {
-        var logslider = require('./logslider')(my.devices.flex.lowerLimit,my.devices.flex.upperLimit,1,1000)
-        flexValue = my.flex.analogRead();
-        console.log('flex value => ', flexValue);
-        var flexNoteValue = logslider.logslider(flexValue)
-
-        var note = {
-          value: flexNoteValue,
-          sensor_type: sensors.flex.description,
-          time: (new Date()).getTime()
-        }
-
-        console.log("posting " + JSON.stringify(note) + " to URL" + server.url + server.notes)
-        poster.postNote(note,function(err){
-          if(err) {
-            console.log("error posting flex sensor note: " + JSON.stringify(err))
-          }
-        })
-
-        my.flex.on('lowerLimit', function(val) {
-          console.log("Lower limit reached!");
-          console.log('Analog value => ', val);
-        });
-
-        my.flex.on('upperLimit', function(val) {
-          console.log("Upper limit reached!");
-          console.log('Analog value => ', val);
-        });
-
-      }
+    every((config.pollInterval).second(), function(){
+      readAllSensors(my);
     });
-
-
   }
 }).start()
+

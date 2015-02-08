@@ -1,5 +1,4 @@
-module.exports = {
-  "pollIntervalSeconds":0.25,
+module.exports =  {
   "stretch": {
     "description":"adafruit stretch sensor",
     "pins": [ 0 ],
@@ -13,6 +12,7 @@ module.exports = {
     "enabled":true
   },
   "sonic": {
-    "description":"sonic sensor"
+    "description":"sonic sensor",
+    "enabled":false
   }
 }
