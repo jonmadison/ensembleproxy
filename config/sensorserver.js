@@ -1,4 +1,4 @@
-modules.export = {
-  url: 'http://sensorserver.herokuapp.com/',
-  notes: '/Compositions/1/Notes'
+module.exports = {
+  url: 'http://soundserver.herokuapp.com',
+  notes: '/api/Compositions/1/Notes'
 }
