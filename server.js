@@ -14,7 +14,7 @@ Cylon.robot({
     stretch: { 
               driver: sensorConfig.stretch.driver, 
               pin: sensorConfig.stretch.pins[0], 
-              lowerLimit: 100, 
+              lowerLimit: 50, 
               upperLimit: 300 
     }
   },
@@ -22,7 +22,7 @@ Cylon.robot({
   work: function(my) {
     console.log("led on pin: " + my.led.pin)
     console.log("stretch on pin: " + my.stretch.pin)
-    var logslider = require('./logslider')(my.devices.stretch.lowerLimit,my.devices.stretch.upperLimit)
+    var logslider = require('./logslider')(my.devices.stretch.lowerLimit,my.devices.stretch.upperLimit,0,255)
     var analogValue = 0;
     var brightness = 0;
     my.led.brightness(brightness)
