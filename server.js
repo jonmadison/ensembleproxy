@@ -34,10 +34,13 @@ Cylon.robot({
 
       // make http call to our 
       //POST http://sensorserver.herokuapp.com/Compositions/1/Notes
+      var noteValue = logslider.logslider(analogValue)
 
       rest.post('http://sensorserver.herokuapp.com/Compositions/1/Notes', {
         data: {
-
+          value: noteValue,
+          sensor_type: my.devices.stretch.description,
+          time: (new Date()).getTime()
         }
       }).on('complete',function(data,response) {
         if(response.statusCode == 200) {
@@ -45,7 +48,6 @@ Cylon.robot({
         }
       })
 
-      var noteValue = logslider.logslider(analogValue)
       console.log('note value => ', noteValue);
       my.led.brightness(noteValue)
     });
