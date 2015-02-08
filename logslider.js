@@ -11,7 +11,7 @@ module.exports = function(minpos,maxpos,minresult,maxresult) {
 
             // calculate adjustment factor
             var scale = (maxv-minv) / (maxp-minp);
-            console.log("scale: " + scale)
+            // console.log("logslider scale: " + scale)
 
             return Math.exp(minv + scale*(position-minp));    
         }

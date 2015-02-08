@@ -6,7 +6,7 @@ var postNote = function(note,cb) {
     data: note
   }).on('complete',function(data,response) {
     if(response.statusCode == 200) {
-      console.log('data: ', data)
+      // console.log('data: ', data)
       return cb(null)
     } else {
       return cb(data)
