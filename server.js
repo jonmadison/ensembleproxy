@@ -1,5 +1,6 @@
 var Cylon = require('cylon')
 var sensorConfig = require('./config/sensors')
+var rest = require('restler')
 
 Cylon.robot({
   connections: {
@@ -30,8 +31,19 @@ Cylon.robot({
     every((sensorConfig.stretch.pollIntervalSeconds).second(), function() {
       analogValue = my.stretch.analogRead();
       console.log('Analog value => ', analogValue);
+
       // make http call to our 
       //POST http://sensorserver.herokuapp.com/Compositions/1/Notes
+
+      rest.post('http://sensorserver.herokuapp.com/Compositions/1/Notes', {
+        data: {
+
+        }
+      }).on('complete',function(data,response) {
+        if(response.statusCode == 200) {
+          console.log('data: ', data)
+        }
+      })
 
       var noteValue = logslider.logslider(analogValue)
       console.log('note value => ', noteValue);
