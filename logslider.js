@@ -1,4 +1,6 @@
 module.exports = function(min,max) {
+    console.log("loaded logslider: ("+min+","+max+")")
+
     var logslider = function() {
     // position will be between 0 and 100
     var minp = 0;
