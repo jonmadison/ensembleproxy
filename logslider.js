@@ -1,7 +1,6 @@
 module.exports = function(minpos,maxpos,minresult,maxresult) {
     return {
         logslider: function(position) {
-            // position will be between 0 and 100
             var minp = minpos;
             var maxp = maxpos;
 

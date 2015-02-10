@@ -1,18 +1,25 @@
 module.exports =  {
   "stretch": {
     "description":"adafruit stretch sensor",
-    "pins": [ 0 ],
+    "pin": 0,
     "driver":"analogSensor",
+    "lowerLimit":0,
+    "upperLimit":500,
     "enabled":true
   },
   "flex": {
     "description":"spectra symbol flex sensor",
-    "pins": [ 1 ],
+    "pin": 1 ,
     "driver":"analogSensor",
-    "enabled":true
+    "lowerLimit": 900,
+    "upperLimit": 1100,
+    "enabled":false
   },
   "sonic": {
     "description":"sonic sensor",
-    "enabled":false
+    "enabled":false,
+    "pins": [ 10,11 ],
+    "driver":"analogSensor",
+    "enabled":true
   }
 }

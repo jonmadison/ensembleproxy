@@ -9,9 +9,18 @@ var poster = require('./poster')
 var readSensor = function(sensor) { 
   if(!sensor) return
   // console.log("readSensor from sensor " + JSON.stringify(sensor))
-  var logslider = require('./logslider')(sensor.lowerLimit,sensor.upperLimit,1,500)
-  var value = sensor.analogRead();
-  var noteValue = value*5
+  var logslider = require('./logslider')(sensor.lowerLimit,sensor.upperLimit,1,100);
+
+  var value;
+  if(sensors[sensor.name].driver=='analogSensor') {
+    value = sensor.analogRead();
+  } else {
+    value = sensor.digitalRead(function(){
+      console.log("got digital read")
+    });
+  }
+
+  var noteValue = logslider.logslider(value)
   console.log(sensor.name + ' noteValue => ', noteValue);
 
   sensor.on('lowerLimit', function(val) {
@@ -20,8 +29,8 @@ var readSensor = function(sensor) {
   });
 
   sensor.on('upperLimit', function(val) {
-    console.log("Upper limit reached!");
-    console.log('Analog value => ', val);
+    console.log(sensor.name + " upper limit reached!");
+    console.log(sensor.name + ' Analog value => ', val);
   });
   return noteValue
 }
@@ -34,7 +43,7 @@ var readAllSensors = function(my) {
     if(!sensors.hasOwnProperty(sensorName)) continue
     if(sensors[sensorName].enabled) {
       val = readSensor(my[sensorName])
-      console.log('value => ', val);     
+      // console.log('value => ', val);     
       postSensorReading(sensor,val)
     }
   }
@@ -47,7 +56,7 @@ var postSensorReading = function(sensor,reading) {
     time: (new Date()).getTime()
   }
 
-  console.log("posting " + JSON.stringify(note) + " to URL" + server.url + server.notes)
+  // console.log("posting " + JSON.stringify(note) + " to URL" + server.url + server.notes)
   poster.postNote(note,function(err){
     if(err) {
       console.log("error posting: " + JSON.stringify(err))
@@ -65,18 +74,8 @@ Cylon.robot({
             driver: outputs.led.driver, 
             pin: outputs.led.pins[0]
     },
-    stretch: { 
-              driver: sensors.stretch.driver, 
-              pin: sensors.stretch.pins[0], 
-              lowerLimit: 0, 
-              upperLimit: 300 
-    },
-    flex: {
-      driver: sensors.flex.driver,
-      pin: sensors.flex.pins[0],
-      lowerLimit: -1000,
-      upperLimit: 1000
-    }
+    stretch: sensors.stretch,
+    flex: sensors.flex
   },
 
   work: function(my) {
