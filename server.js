@@ -73,19 +73,22 @@ var postSensorReading = function(sensor,reading) {
   })
 }
 
+var getDevices = function() {
+  var deviceObj = {}
+  for(var sensorName in sensors) {
+    var sensor = sensors[sensorName]
+    if(sensors[sensorName].enabled) deviceObj[sensorName] = sensors[sensorName]
+  }
+  console.log("getDevices setting up: " + JSON.stringify(deviceObj))
+  return deviceObj
+}
+
 Cylon.robot({
   connections: {
     edison: { adaptor: 'intel-iot' }
   },
 
-  devices: {
-    led: { 
-            driver: outputs.led.driver, 
-            pin: outputs.led.pins[0]
-    },
-    stretch: sensors.stretch,
-    flex: sensors.flex
-  },
+  devices: getDevices(),
 
   work: function(my) {
     every((config.pollInterval).second(), function(){

@@ -20,7 +20,6 @@ module.exports =  {
     "description":"sonic sensor",
     "enabled":false,
     "pins": [ 10,11 ],
-    "driver":"analogSensor",
-    "enabled":true
+    "driver":"analogSensor"
   }
 }
