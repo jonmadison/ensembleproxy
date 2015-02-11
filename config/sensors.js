@@ -7,13 +7,14 @@ module.exports =  {
     "upperLimit":500,
     "enabled":true
   },
-  "flex": {
-    "description":"spectra symbol flex sensor",
+  "pressure": {
+    "description":"homemade pressure sensor",
     "pin": 1 ,
     "driver":"analogSensor",
-    "lowerLimit": 900,
+    "lowerLimit": 0,
     "upperLimit": 1100,
-    "enabled":false
+    "invert":true,
+    "enabled":true
   },
   "sonic": {
     "description":"sonic sensor",

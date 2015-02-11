@@ -5,6 +5,7 @@ var outputs = require('./config/outputs')
 var server = require('./config/sensorserver')
 var poster = require('./poster')
 
+var scaleFactor = 5;
 
 var readSensor = function(sensor) { 
   if(!sensor) return
@@ -20,7 +21,15 @@ var readSensor = function(sensor) {
     });
   }
 
+  // var noteValue = logslider.logslider(value)
   var noteValue = logslider.logslider(value)
+
+  if(sensors[sensor.name].invert) {
+    noteValue = 1/noteValue * 100
+  }
+
+  noteValue *= scaleFactor;
+
   console.log(sensor.name + ' noteValue => ', noteValue);
 
   sensor.on('lowerLimit', function(val) {
@@ -59,7 +68,7 @@ var postSensorReading = function(sensor,reading) {
   // console.log("posting " + JSON.stringify(note) + " to URL" + server.url + server.notes)
   poster.postNote(note,function(err){
     if(err) {
-      console.log("error posting: " + JSON.stringify(err))
+      // console.log("error posting: " + JSON.stringify(err))
     }
   })
 }
