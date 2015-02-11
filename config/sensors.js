@@ -7,7 +7,7 @@ module.exports =  {
     "upperLimit":500,
     "enabled":true
   },
-  "pressure": {
+  "pressure1": {
     "description":"homemade pressure sensor",
     "pin": 1 ,
     "driver":"analogSensor",
@@ -15,6 +15,33 @@ module.exports =  {
     "upperLimit": 1100,
     "invert":true,
     "enabled":true
+  },
+  "pressure2": {
+    "description":"homemade pressure sensor",
+    "pin": 2 ,
+    "driver":"analogSensor",
+    "lowerLimit": 0,
+    "upperLimit": 1100,
+    "invert":true,
+    "enabled":false
+  },
+  "pressure3": {
+    "description":"homemade pressure sensor",
+    "pin": 3 ,
+    "driver":"analogSensor",
+    "lowerLimit": 0,
+    "upperLimit": 1100,
+    "invert":true,
+    "enabled":false
+  },
+  "pressure4": {
+    "description":"homemade pressure sensor",
+    "pin": 4 ,
+    "driver":"analogSensor",
+    "lowerLimit": 0,
+    "upperLimit": 1100,
+    "invert":true,
+    "enabled":false
   },
   "sonic": {
     "description":"sonic sensor",
