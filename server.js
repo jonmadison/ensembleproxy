@@ -15,10 +15,16 @@ var readSensor = function(sensor) {
   var value;
   if(sensors[sensor.name].driver=='analogSensor') {
     value = sensor.analogRead();
-  } else {
+  } 
+
+  if(sensor[sensor.name].driver=='digitalSensor') {
     value = sensor.digitalRead(function(){
       console.log("got digital read")
     });
+  }
+
+  if(sensor[sensor.name].driver=='button') {
+    
   }
 
   // var noteValue = logslider.logslider(value)
@@ -65,7 +71,7 @@ var postSensorReading = function(sensor,reading) {
     time: (new Date()).getTime()
   }
 
-  // console.log("posting " + JSON.stringify(note) + " to URL" + server.url + server.notes)
+  console.log("posting " + JSON.stringify(note) + " to URL" + server.url + server.notes)
   poster.postNote(note,function(err){
     if(err) {
       // console.log("error posting: " + JSON.stringify(err))
