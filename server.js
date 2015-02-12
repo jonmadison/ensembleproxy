@@ -44,15 +44,15 @@ var readSensor = function(sensor) {
 
   console.log(sensor.name + ' noteValue => ', noteValue);
 
-  sensor.on('lowerLimit', function(val) {
-    console.log("Lower limit reached!");
-    console.log('Analog value => ', val);
-  });
-
-  sensor.on('upperLimit', function(val) {
-    console.log(sensor.name + " upper limit reached!");
-    console.log(sensor.name + ' Analog value => ', val);
-  });
+  //sensor.on('lowerLimit', function(val) {
+  //  console.log("Lower limit reached!");
+  //  console.log('Analog value => ', val);
+  //});
+//
+  //sensor.on('upperLimit', function(val) {
+  //  console.log(sensor.name + " upper limit reached!");
+  //  console.log(sensor.name + ' Analog value => ', val);
+  //});
   return noteValue
 }
 

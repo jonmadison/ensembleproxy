@@ -60,7 +60,7 @@ module.exports =  {
     "pin": 0,
     "driver":"analogSensor",
     "lowerLimit":0,
-    "upperLimit":500,
+    "upperLimit":5000,
     "enabled":true
   }
 }
