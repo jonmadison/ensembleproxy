@@ -71,8 +71,9 @@ $('.listen-button').on('click', function(e) {
   console.log('ip is ' + ip);
 
   var notes = io.connect('http://'+ip+':8080/notes');
-    notes.on('connect', function () {
+  notes.on('connect', function () {
     console.log('connected to socket');
+    $('.connected-status').text('Connected').addClass('connected');
     inv.start()
   });
 
