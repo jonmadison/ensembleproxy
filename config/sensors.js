@@ -16,9 +16,21 @@ module.exports =  {
     "invert":true,
     "enabled":false
   },
-  "button2": {
-    "description":"my button demo",
-    "pin": 6,
+  "touch1": {
+    "description":"touch button 1",
+    "pin": 5,
+    "driver": "button",
+    "enabled": true
+  },
+  "touch2": {
+    "description":"touch button 2",
+    "pin": 2,
+    "driver": "button",
+    "enabled": true
+  },
+  "tempoButton": {
+    "description":"tempo button",
+    "pin": 7,
     "driver": "button",
     "enabled": true
   },
@@ -61,6 +73,6 @@ module.exports =  {
     "driver":"analogSensor",
     "lowerLimit":0,
     "upperLimit":5000,
-    "enabled":true
+    "enabled":false
   }
 }

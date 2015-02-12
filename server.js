@@ -4,12 +4,19 @@ var sensors = require('./config/sensors')
 var outputs = require('./config/outputs')
 var server = require('./config/sensorserver')
 var poster = require('./poster')
+var drumButton1 = require('./drum_button')
+var drumButton2 = require('./drum_button');
+var drumButtons = [drumButton1, drumButton2]
 
 var scaleFactor = 5;
+var touchDrums = [false,false];
+var tempoSeted = false;
+var beats = []
+var bpm = 0;
 
 var readSensor = function(sensor) { 
   if(!sensor) return
-  console.log("readSensor from sensor " + JSON.stringify(sensor))
+  //console.log("readSensor from sensor " + JSON.stringify(sensor))
   var logslider = require('./logslider')(sensor.lowerLimit,sensor.upperLimit,1,100);
 
   var value;
@@ -35,14 +42,14 @@ var readSensor = function(sensor) {
 
   // var noteValue = logslider.logslider(value)
   var noteValue = logslider.logslider(value)
-
+noteValue
   if(sensors[sensor.name].invert) {
     noteValue = 1/noteValue * 100
   }
 
   noteValue *= scaleFactor;
 
-  console.log(sensor.name + ' noteValue => ', noteValue);
+  //console.log(sensor.name + ' noteValue => ', noteValue);
 
   //sensor.on('lowerLimit', function(val) {
   //  console.log("Lower limit reached!");
@@ -64,7 +71,7 @@ var readAllSensors = function(my) {
     if(!sensors.hasOwnProperty(sensorName)) continue
     if(sensors[sensorName].enabled) {
       val = readSensor(my[sensorName])
-      console.log('value => ', val);  
+      //console.log('value => ', val);  
 
       postSensorReading(sensor,val)
     }
@@ -78,7 +85,7 @@ var postSensorReading = function(sensor,reading) {
     time: (new Date()).getTime()
   }
 
-  console.log("posting " + JSON.stringify(note) + " to URL" + server.url + server.notes)
+  //console.log("posting " + JSON.stringify(note) + " to URL" + server.url + server.notes)
   poster.postNote(note,function(err){
     if(err) {
       // console.log("error posting: " + JSON.stringify(err))
@@ -97,6 +104,16 @@ var getDevices = function() {
   return deviceObj
 }
 
+var tempoSetupTimeout = function(){
+  setTimeout(function(){
+    tempoSeted = true
+    console.log("Timeout!!! BPM setted");
+    var numberOfBeats = beats.lenght;
+    bpm = numberOfBeats * 10;
+    console.log("BPM is: " + bpm);
+  }, 6000);
+}
+
 Cylon.robot({
   connections: {
     edison: { adaptor: 'intel-iot' }
@@ -110,13 +127,36 @@ Cylon.robot({
     });
   }
 }).on('ready',function(sensor){
-    sensor.button2.on('push', function(){
-      console.log("button pressed on")
-    });
+  console.log("Start setting ");
+  tempoSetupTimeout();
+  // Snare Drum
+  sensor.touch1.on('push', function(){
+    console.log("PA!");
+    touchDrums[0] = !touchDrums[0]
+    setTimeout(function(){
+      touchDrums[0] = false;
+    }, 1000);
+  });
+  sensor.touch1.on('release', function() {
+    touchDrums[0] = !touchDrums[0]
+  });
+  // Bass Drumm
+  sensor.touch2.on('push', function(){
+    console.log("TUM!");
+    touchDrums[1] = !touchDrums[1]
+    setTimeout(function(){
+      touchDrums[0] = false;
+    }, 1000);
+  });
+  sensor.touch2.on('release', function() {
+    touchDrums[1] = !touchDrums[1]
+  });
 
-    sensor.button2.on('release', function() {
-      console.log("button pressed off")
-    });
+  sensor.tempoButton.on('push', function(){
+    if(!tempoSeted){
+      beats.push(1);
+    }
+  });
 })
 
 Cylon.start()
