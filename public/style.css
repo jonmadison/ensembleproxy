@@ -131,13 +131,22 @@ canvas{
 }
 
 .composition {
-  height:150px;
+  height:30px;
   border: 1px solid;
   margin-bottom: 5%;
-  background-color: white;
+  background-color:#f0dcdc ;
   border: none;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  color: black;
+  padding-left: 10px;
+
+  
 }
+
+.left .active{
+  background-color: #fab4b4;
+}
+
+
 
 /*
   about page
