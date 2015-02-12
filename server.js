@@ -4,23 +4,16 @@ var Cylon = require('cylon')
 var config = require('./config/config')
 var sensors = require('./config/sensors')
 var outputs = require('./config/outputs')
-var server = require('./config/sensorserver')
+var serverConfig = require('./config/sensorserver')
 var poster = require('./poster')
-var guid = require('easy-guid')
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
 
-var globalSocket;
+var staticServer = require('http').Server(app)
+staticServer.listen(8080)
 
-server.listen(8080);
+var socket = require('./config/socket')(staticServer)
+var buttons = require('./components/buttons')(socket)
 
-app.use(express.static(__dirname + '/public'));
-
-var notes = io
-  .of('/notes')
-  .on('connection', function (socket) {
-     globalSocket = socket
-});
+app.use(express.static(__dirname + '/public'))
 
 var scaleFactor = 5;
 
@@ -34,6 +27,7 @@ var readSensor = function(sensor) {
   var value;
   if(sensors[sensor.name].driver=='analogSensor') {
     value = sensor.analogRead();
+    console.log("got analog read")
   }
 
   if(sensors[sensor.name].driver=='digitalSensor') {
@@ -51,16 +45,14 @@ var readSensor = function(sensor) {
 
   noteValue *= scaleFactor;
 
-  console.log(sensor.name + ' noteValue => ', noteValue);
+  console.log(sensor.name + ' noteValue => ', noteValue)
 
   sensor.on('lowerLimit', function(val) {
-    console.log("Lower limit reached!");
-    console.log('Analog value => ', val);
+    console.log(sensor.name + " lower limit reached, value => ", val)
   });
 
   sensor.on('upperLimit', function(val) {
-    console.log(sensor.name + " upper limit reached!");
-    console.log(sensor.name + ' Analog value => ', val);
+    console.log(sensor.name + " upper limit reached, value => ", val)
   });
   return noteValue
 }
@@ -87,15 +79,15 @@ var postSensorReading = function(sensor,reading) {
     time: (new Date()).getTime()
   }
 
-  console.log("posting " + JSON.stringify(note) + " to URL" + server.url + server.notes)
+  console.log("posting " + JSON.stringify(note) + " to URL" + serverConfig.url + serverConfig.notes)
   poster.postNote(note,function(err){
     if(err) {
       // console.log("error posting: " + JSON.stringify(err))
     }
   })
 
-  if (globalSocket) {
-    globalSocket.emit('noteReceived', note);
+  if (socket) {
+    socket.emit('noteReceived', note);
   }
 }
 
@@ -117,39 +109,14 @@ Cylon.robot({
   devices: getDevices(),
 
   work: function(my) {
-    every((config.pollInterval).second(), function(){
+    every((config.pollInterval).second(), function() {
       readAllSensors(my);
-    });
+    })
   }
-}).on('ready',function(sensor){
-    sensor.button2.on('push', function(){
-      console.log("button pressed on")
-      // post new composition
-      var composition = {
-          "name": guid.new(16),
-          "tempo": 80,
-          "created_by": 1,
-          "created_at": (new Date()).getTime()
-      }
-      poster.postComposition(composition, function(err) {
-        if(err) {
-          return console.log("couldn't post new composition")
-        }
-        console.log("new composition created")
-      });
-    });
-}).on('ready', function(sensor) {
-  sensor.button2.on('push', function(value) {
-    if (globalSocket) {
-      globalSocket.emit('noteReceived', {value: "BPM128 L16"});
-    }
-  });
-
-  sensor.button2.on('release', function(value) {
-    if (globalSocket) {
-      globalSocket.emit('noteReceived', {value: "BPM128 L8"});
-    }
-  });
+}).on('ready',function(my) { 
+  buttons.registerCompositionHandler(my)
+}).on('ready',function(my) { 
+  buttons.registerSocketHandlers(my)
 })
 
 Cylon.start()
