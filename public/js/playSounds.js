@@ -87,3 +87,6 @@ $('.listen-button').on('click', function(e) {
   });
 });
 
+notes.on('sensorData', function (tempo) {
+  console.log(tempo);
+});
