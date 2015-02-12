@@ -1,69 +1,65 @@
-<script src="js/socket.io.js"></script>
-<script src="js/timbre.dev.js"></script>
-<script src="js/subcollider.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/bootstrap.css">
+  <link rel="stylesheet" href="style.css">
 
-<script>
+  <title>ENSEMBLE for IntelIoT Hackson</title>
+</head>
 
-  var inv;
+<body>
+  <div class="header">
+    <div class="logo">
+    </div>
 
-T("audio").load("./drumkit.wav", function() {
-  var BD  = this.slice(   0,  500).set({bang:false});
-  var SD  = this.slice( 500, 1000).set({bang:false});
-  var HH1 = this.slice(1000, 1500).set({bang:false, mul:0.2});
-  var HH2 = this.slice(1500, 2000).set({bang:false, mul:0.2});
-  var CYM = this.slice(2000).set({bang:false, mul:0.2});
-  var scale = new sc.Scale([0,1,3,7,8], 12, "Pelog");
+    <div class="signin">
+      <img src=""/>
+      <!--span>IntelIoT</span-->
+        </div>
 
-  var P1 = [
-    [BD, HH1],
-    [HH1],
-    [HH2],
-    [],
-    [BD, SD, HH1],
-    [HH1],
-    [HH2],
-    [SD],
-  ].wrapExtend(128);
+    <div class="nav">
+      <ul>
+        <li class="active"><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li>
+            <input type="text" class="listen-ip">
+            <button type="button" class="btn btn-primary listen-button">Listen</button>
+        </li>
+        <li class="connected-status">Not Connected</li>
+      </ul>
 
-  var P2 = sc.series(16);
+    </div>
+  </div>
+  <div class="pink"><div>
 
-  var drum = T("lowshelf", {freq:110, gain:8, mul:0.6}, BD, SD, HH1, HH2, CYM).play();
-  var lead = T("saw", {freq:T("param")});
-  var env  = T("perc", {r:100});
-  var arp  = T("OscGen", {wave:"sin(15)", env:env, mul:0.5});
+  <div class="outer">
+      <div class="left">
 
-  T("delay", {time:"BPM128 L4", fb:0.65, mix:0.35},
-    T("pan", {pos:T("tri", {freq:"BPM64 L1", mul:0.8}).kr()}, arp)
-  ).play();
+        <div class="composition active">Live Stream @Start Up Hall</div>
+        <div class="composition">Feb 13th @Place1</div>
+        <div class="composition">Feb 11th @UW Start Up Hall</div>
+        <div class="composition">Feb 13th @Place1</div>
+        <div class="composition">Feb 11th @UW Start Up Hall</div>
+        <div class="composition">Feb 11th @UW Start Up Hall</div>
+        <div class="composition">Feb 13th @Place1</div>
+        <div class="composition">Feb 11th @UW Start Up Hall</div>
 
-  inv = T("interval", {interval:"BPM128 L16"}, function(count) {
-    var i = count % P1.length;
-    if (i === 0) CYM.bang();
 
-    P1[i].forEach(function(p) { p.bang(); });
+      </div>
+  </div>
+  <div class="main">
+    <canvas class="canvas"></canvas>
+  </div>
 
-    if (Math.random() < 0.015) {
-      var j = (Math.random() * P1.length)|0;
-      P1.wrapSwap(i, j);
-      P2.wrapSwap(i, j);
-    }
+  <div class="footer">Copyright@2015</div>
 
-    var noteNum = scale.wrapAt(P2.wrapAt(count)) + 60;
-    if (i % 2 === 0) {
-      lead.freq.linTo(noteNum.midicps() * 2, "100ms");
-    }
-    arp.noteOn(noteNum + 24, 60);
-  }).start();
-});
+  <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+  <script src="js/visualization.js"></script>
 
-  var notes = io.connect('http://10.65.19.166:8080/notes');
-    notes.on('connect', function () {
-    console.log('connected to socket');
-  });
-
-  notes.on('noteReceived', function (note) {
-                        var value = note.value;
-                        inv.set({interval: value})
-    console.log(note);
-  });
-</script>
+  <script src="js/socket.io.js"></script>
+  <script src="js/timbre.dev.js"></script>
+  <script src="js/subcollider.js"></script>
+  <script src="js/playSounds.js"></script>
+</body>
+</html>
