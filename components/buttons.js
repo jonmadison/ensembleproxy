@@ -63,10 +63,11 @@ module.exports = {
             .connection('edison', { adaptor: 'intel-iot' })
             .device('screen', { driver: 'upm-jhd1313m1', connection: 'edison' })
             .on('ready', function(my) {
+              console.log("lcd display goes here")
               writeToScreen(my.screen, "Playing " + compName);
             })
             .start();
-
+          
         })
       })
     }

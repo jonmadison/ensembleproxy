@@ -22,7 +22,7 @@ module.exports =  {
     "driver": "button",
     "controlEventPush":"toggleComposition",
     "controlEventRelease":null,
-    "enabled": false
+    "enabled": true
   },
   "flatButton": {
     "description":"my button demo",
@@ -58,12 +58,12 @@ module.exports =  {
     "upperLimit": 1100,
     "invert":true,
     "enabled":false
-  },
+  }/*
   "lcd": { 
     "description":"lcd display",
     "enabled":false,
     "driver":"upm-jhd1313m1",
     "connection":"edison", 
     "endabled":true
-  }
+  }*/
 }
