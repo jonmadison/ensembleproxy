@@ -64,14 +64,13 @@ T("audio").load("./drumkit.wav", function() {
   });
 });
 
-  var notes = io.connect('http://10.65.16.166:8080/notes');
-  notes.on('connect', function () {
-    console.log('connected to socket');
-  });
+var notes = io.connect('http://10.65.16.166:8080/notes');
+notes.on('connect', function () {
+  console.log('connected to socket');
+});
 
-  notes.on('tempo', function (tempo) {
-    var value = tempo.value;
-    inv.set({interval: value})
-    console.log(tempo);
-  });
+notes.on('tempo', function (tempo) {
+  var value = tempo.value;
+  inv.set({interval: value})
+  console.log(tempo);
 });
