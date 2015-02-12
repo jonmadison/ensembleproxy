@@ -61,8 +61,8 @@ T("audio").load("./drumkit.wav", function() {
       lead.freq.linTo(noteNum.midicps() * 2, "100ms");
     }
     arp.noteOn(noteNum + 24, 60);
-  });
-}).start();
+  }).start();
+})
 
 var notes = io.connect('http://10.65.19.166:8080/notes');
 notes.on('connect', function () {
