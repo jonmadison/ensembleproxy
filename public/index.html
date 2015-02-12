@@ -1,10 +1,11 @@
-<script src="socket.io.js"></script>
-<script src="timbre.dev.js"></script>
-<script src="subcollider.js"></script>
+<script src="js/socket.io.js"></script>
+<script src="js/timbre.dev.js"></script>
+<script src="js/subcollider.js"></script>
 
 <script>
 
   var inv;
+  var serviceUrl = 'http://10.65.19.166:8080/notes'
 
 T("audio").load("./drumkit.wav", function() {
   var BD  = this.slice(   0,  500).set({bang:false});
@@ -38,7 +39,7 @@ T("audio").load("./drumkit.wav", function() {
     T("pan", {pos:T("tri", {freq:"BPM64 L1", mul:0.8}).kr()}, arp)
   ).play();
 
-  inv = T("interval", {interval:"BPM128 L16"}, function(count) {
+  inv = T("interval", {interval:"BPM80 L16"}, function(count) {
     var i = count % P1.length;
     if (i === 0) CYM.bang();
 
@@ -58,7 +59,7 @@ T("audio").load("./drumkit.wav", function() {
   }).start();
 });
 
-  var notes = io.connect('http://10.65.19.166:8080/notes');
+  var notes = io.connect(serviceUrl);
     notes.on('connect', function () {
     console.log('connected to socket');
   });
