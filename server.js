@@ -24,26 +24,31 @@ var getDevices = function() {
   return deviceObj
 }
 
+var bootstrapped = false;
+var runApp = function(my, socket) {
+  if (!bootstrapped) {
+    buttonComponent.registerCompositionHandler(my)
+    buttonComponent.registerSocketHandlers(my, socket)
+
+    every((config.pollInterval).second(), function() {
+      sensorComponent.readAllSensors(my, socket);
+    })
+
+    bootstrapped = true;
+  }
+}
+
 Cylon.robot({
   connections: {
     edison: { adaptor: 'intel-iot' }
   },
-
-  devices: getDevices(),
-
-  work: function(my) {
-    every((config.pollInterval).second(), function() {
-      sensorComponent.readAllSensors(my);
-    })
-  }
+  devices: getDevices()
 }).on('ready',function(my) {
-  buttonComponent.registerCompositionHandler(my)
-
   io
     .of('/notes')
     .on('connection', function (socket) {
-      buttonComponent.registerSocketHandlers(my, socket)
-  })
+      runApp(my, socket)
+    })
 })
 
 Cylon.start()
