@@ -64,7 +64,8 @@ var readAllSensors = function(my) {
     if(!sensors.hasOwnProperty(sensorName)) continue
     if(sensors[sensorName].enabled) {
       val = readSensor(my[sensorName])
-      // console.log('value => ', val);     
+      console.log('value => ', val);  
+
       postSensorReading(sensor,val)
     }
   }
@@ -85,6 +86,7 @@ var postSensorReading = function(sensor,reading) {
   })
 }
 
+//Read the sensors that Cylon is going to listen
 var getDevices = function() {
   var deviceObj = {}
   for(var sensorName in sensors) {

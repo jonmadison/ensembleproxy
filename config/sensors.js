@@ -14,7 +14,7 @@ module.exports =  {
     "lowerLimit": 0,
     "upperLimit": 1100,
     "invert":true,
-    "enabled":true
+    "enabled":false
   },
   "button2": {
     "description":"my button demo",
@@ -54,5 +54,13 @@ module.exports =  {
     "enabled":false,
     "pins": [ 10,11 ],
     "driver":"analogSensor"
+  },
+  "softpot":{
+    "description":"softpot resistor",
+    "pin": 0,
+    "driver":"analogSensor",
+    "lowerLimit":0,
+    "upperLimit":500,
+    "enabled":true
   }
 }
