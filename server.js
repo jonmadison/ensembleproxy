@@ -9,7 +9,7 @@ var scaleFactor = 5;
 
 var readSensor = function(sensor) { 
   if(!sensor) return
-  // console.log("readSensor from sensor " + JSON.stringify(sensor))
+  console.log("readSensor from sensor " + JSON.stringify(sensor))
   var logslider = require('./logslider')(sensor.lowerLimit,sensor.upperLimit,1,100);
 
   var value;
@@ -17,18 +17,18 @@ var readSensor = function(sensor) {
     value = sensor.analogRead();
   } 
 
-  if(sensor[sensor.name].driver=='digitalSensor') {
+  if(sensors[sensor.name].driver=='digitalSensor') {
     value = sensor.digitalRead(function(){
       console.log("got digital read")
     });
   }
 
-  if(sensor[sensor.name].driver=='button') {
-    sensor.touch.on('press', function(){
-      console.log("button pressed on")
+  if(sensors[sensor.name].driver=='button') {
+    sensor.touch.on('push', function(){
+      console.log("button push on")
     });
 
-    my.touch.on('release', function() {
+    sensor.touch.on('release', function() {
       console.log("button pressed off")
     });
   }
