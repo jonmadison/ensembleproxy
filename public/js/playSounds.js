@@ -64,7 +64,7 @@ T("audio").load("./drumkit.wav", function() {
   });
 });
 
-var notes = io.connect('http://10.65.16.166:8080/notes');
+var notes = io.connect('http://10.65.19.166:8080/notes');
 notes.on('connect', function () {
   console.log('connected to socket');
 });
