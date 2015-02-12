@@ -99,7 +99,9 @@ canvas{
   margin-left: 10%;
   width: 50%;
   height:300px;
-  background-color: black;
+  background-color: white;
+  border: none;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 
 }
 .outer{
@@ -107,8 +109,8 @@ canvas{
   width:25%;
   padding-left: 5%;
   padding-top: 2%;
-    max-height: 300px;
-    overflow:hidden;
+  max-height: 300px;
+  overflow:hidden;
 }
 
 ::-webkit-scrollbar {
@@ -132,7 +134,9 @@ canvas{
   height:150px;
   border: 1px solid;
   margin-bottom: 5%;
-  background-color: black;
+  background-color: white;
+  border: none;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 }
 
 /*
