@@ -23,15 +23,15 @@ var readSensor = function(sensor) {
     });
   }
 
-  if(sensors[sensor.name].driver=='button') {
-    sensor.touch.on('push', function(){
-      console.log("button push on")
-    });
+  // if(sensors[sensor.name].driver=='button') {
+  //   sensor[sensor.name].on('push', function(){
+  //     console.log("button pressed on")
+  //   });
 
-    sensor.touch.on('release', function() {
-      console.log("button pressed off")
-    });
-  }
+  //   sensor[sensor.name].on('release', function() {
+  //     console.log("button pressed off")
+  //   });
+  //}
 
   // var noteValue = logslider.logslider(value)
   var noteValue = logslider.logslider(value)
@@ -107,5 +107,15 @@ Cylon.robot({
       readAllSensors(my);
     });
   }
-}).start()
+}).on('ready',function(sensor){
+    sensor.button2.on('push', function(){
+      console.log("button pressed on")
+    });
+
+    sensor.button2.on('release', function() {
+      console.log("button pressed off")
+    });
+})
+
+Cylon.start()
 
