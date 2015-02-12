@@ -5,7 +5,6 @@
 <script>
 
   var inv;
-  var serviceUrl = 'http://10.65.19.166:8080/notes'
 
 T("audio").load("./drumkit.wav", function() {
   var BD  = this.slice(   0,  500).set({bang:false});
@@ -30,16 +29,14 @@ T("audio").load("./drumkit.wav", function() {
 
   var drum = T("lowshelf", {freq:110, gain:8, mul:0.6}, BD, SD, HH1, HH2, CYM).play();
   var lead = T("saw", {freq:T("param")});
-  var vcf  = T("MoogFF", {freq:2400, gain:6, mul:0.1}, lead);
   var env  = T("perc", {r:100});
   var arp  = T("OscGen", {wave:"sin(15)", env:env, mul:0.5});
 
   T("delay", {time:"BPM128 L4", fb:0.65, mix:0.35},
-    T("pan", {pos:0.2}, vcf),
     T("pan", {pos:T("tri", {freq:"BPM64 L1", mul:0.8}).kr()}, arp)
   ).play();
 
-  inv = T("interval", {interval:"BPM80 L16"}, function(count) {
+  inv = T("interval", {interval:"BPM128 L16"}, function(count) {
     var i = count % P1.length;
     if (i === 0) CYM.bang();
 
@@ -59,7 +56,7 @@ T("audio").load("./drumkit.wav", function() {
   }).start();
 });
 
-  var notes = io.connect(serviceUrl);
+  var notes = io.connect('http://10.65.19.166:8080/notes');
     notes.on('connect', function () {
     console.log('connected to socket');
   });
