@@ -1,18 +1,18 @@
 var express = require('express');
 var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server)
+
 var Cylon = require('cylon')
 var config = require('./config/config')
 var sensors = require('./config/sensors')
 var outputs = require('./config/outputs')
 
-var staticServer = require('http').Server(app)
-staticServer.listen(8080)
-
-var socket = require('./config/socket')(staticServer)
-var buttonComponent = require('./components/buttons')(socket)
-var sensorComponent = require('./components/sensors')(sensors,socket)
+var buttonComponent = require('./components/buttons')
+var sensorComponent = require('./components/sensors')(sensors)
 
 app.use(express.static(__dirname + '/public'))
+server.listen(8080);
 
 var getDevices = function() {
   var deviceObj = {}
@@ -38,8 +38,12 @@ Cylon.robot({
   }
 }).on('ready',function(my) {
   buttonComponent.registerCompositionHandler(my)
-}).on('ready',function(my) {
-  buttonComponent.registerSocketHandlers(my)
+
+  io
+    .of('/notes')
+    .on('connection', function (socket) {
+      buttonComponent.registerSocketHandlers(my, socket)
+  })
 })
 
 Cylon.start()
