@@ -62,7 +62,7 @@ T("audio").load("./drumkit.wav", function() {
     }
     arp.noteOn(noteNum + 24, 60);
   });
-});
+}).start();
 
 var notes = io.connect('http://10.65.19.166:8080/notes');
 notes.on('connect', function () {
@@ -72,5 +72,9 @@ notes.on('connect', function () {
 notes.on('tempo', function (tempo) {
   var value = tempo.value;
   inv.set({interval: value})
+  console.log(tempo);
+});
+
+notes.on('sensorData', function (tempo) {
   console.log(tempo);
 });

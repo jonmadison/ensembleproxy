@@ -28,14 +28,14 @@ var bootstrapped = false;
 var runApp = function(my, socket) {
   if (!bootstrapped) {
     buttonComponent.registerCompositionHandler(my)
-    buttonComponent.registerSocketHandlers(my, socket)
-
-    every((config.pollInterval).second(), function() {
-      sensorComponent.readAllSensors(my, socket);
-    })
-
     bootstrapped = true;
   }
+
+  buttonComponent.registerSocketHandlers(my, socket)
+
+  every((config.pollInterval).second(), function() {
+    sensorComponent.readAllSensors(my, socket);
+  })
 }
 
 Cylon.robot({
