@@ -68,7 +68,7 @@ $('#stream-info').hide();
 
 $('.listen-button').on('click', function(e) {
   e.preventDefault();
-  var ip = $('.listen-ip').val() || '10.65.19.166';
+  var ip = $('.listen-ip').val() || '10.65.20.53';
   console.log('ip is ' + ip);
 
   var notes = io.connect('http://'+ip+':8080/notes');
