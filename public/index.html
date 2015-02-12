@@ -22,13 +22,21 @@
       <ul>
         <li class="active"><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
-        <li>
-            <input type="text" class="listen-ip">
-            <button type="button" class="btn btn-primary listen-button">Listen</button>
-        </li>
-        <li class="connected-status">Not Connected</li>
+
       </ul>
 
+    </div>
+    <div class="listen-live-buttons">
+      <ul>
+        <li>
+            <input type="text" class="listen-ip" placeholder="ip-address">
+            <button type="button" class="btn btn-primary listen-button">Listen Live</button>
+        </li>
+        <li> <div class="connected-status">Not Connected</div></li>
+        <span id="stream-info">
+          <li>Tempo: <span id="tempo"></span></li>
+        </span>
+      </ul>
     </div>
   </div>
   <div class="pink"><div>
@@ -60,6 +68,7 @@
   <script src="js/socket.io.js"></script>
   <script src="js/timbre.dev.js"></script>
   <script src="js/subcollider.js"></script>
+  <script src="js/dancer.min.js"></script>
   <script src="js/playSounds.js"></script>
 </body>
 </html>
