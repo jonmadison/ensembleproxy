@@ -5,34 +5,35 @@ var outputs = require('./config/outputs')
 var server = require('./config/sensorserver')
 var poster = require('./poster')
 var guid = require('easy-guid')
+var io = require('socket.io').listen(8080);
+
+var globalSocket;
+
+var notes = io
+  .of('/notes')
+    .on('connection', function (socket) {
+      globalSocket = socket
+});
 
 var scaleFactor = 5;
 
-var readSensor = function(sensor) { 
+var readSensor = function(sensor) {
   if(!sensor) return
+  if(sensors[sensor.name].driver=='button') return
+
   console.log("readSensor from sensor " + JSON.stringify(sensor))
   var logslider = require('./logslider')(sensor.lowerLimit,sensor.upperLimit,1,100);
 
   var value;
   if(sensors[sensor.name].driver=='analogSensor') {
     value = sensor.analogRead();
-  } 
+  }
 
   if(sensors[sensor.name].driver=='digitalSensor') {
     value = sensor.digitalRead(function(){
       console.log("got digital read")
     });
   }
-
-  // if(sensors[sensor.name].driver=='button') {
-  //   sensor[sensor.name].on('push', function(){
-  //     console.log("button pressed on")
-  //   });
-
-  //   sensor[sensor.name].on('release', function() {
-  //     console.log("button pressed off")
-  //   });
-  //}
 
   // var noteValue = logslider.logslider(value)
   var noteValue = logslider.logslider(value)
@@ -65,8 +66,9 @@ var readAllSensors = function(my) {
     if(!sensors.hasOwnProperty(sensorName)) continue
     if(sensors[sensorName].enabled) {
       val = readSensor(my[sensorName])
-      // console.log('value => ', val);     
-      postSensorReading(sensor,val)
+      if (val != null) {
+        postSensorReading(sensor,val);
+      }
     }
   }
 }
@@ -84,6 +86,10 @@ var postSensorReading = function(sensor,reading) {
       // console.log("error posting: " + JSON.stringify(err))
     }
   })
+
+  if (globalSocket) {
+    globalSocket.emit('noteReceived', note);
+  }
 }
 
 var getDevices = function() {
@@ -124,11 +130,18 @@ Cylon.robot({
         console.log("new composition created")
       });
     });
+}).on('ready', function(sensor) {
+  sensor.button2.on('push', function(value) {
+    if (globalSocket) {
+      globalSocket.emit('noteReceived', {value: 1000});
+    }
+  });
 
-    sensor.button2.on('release', function() {
-      console.log("button pressed off")
-    });
+  sensor.button2.on('release', function(value) {
+    if (globalSocket) {
+      globalSocket.emit('noteReceived', {value: 500});
+    }
+  });
 })
 
 Cylon.start()
-
