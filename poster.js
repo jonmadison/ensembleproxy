@@ -7,9 +7,9 @@ var postNote = function(note,cb) {
   }).on('complete',function(data,response) {
     if(response.statusCode == 200) {
       // console.log('data: ', data)
-      return cb(null)
+      return cb(null,data)
     } else {
-      return cb(data)
+      return cb(response,data)
     }
   })
 }
@@ -18,11 +18,12 @@ var postComposition = function(composition,cb) {
   rest.post(server.url + server.compositions, {
     data: composition
   }).on('complete',function(data,response) {
+    console.log("POSTER RESPONSE: " + JSON.stringify(data))
     if(response.statusCode == 200) {
       // console.log('data: ', data)
-      return cb(null)
+      return cb(null,data)
     } else {
-      return cb(data)
+      return cb(response,data)
     }
   })
 }
