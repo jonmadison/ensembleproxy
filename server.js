@@ -4,10 +4,19 @@ var sensors = require('./config/sensors')
 var outputs = require('./config/outputs')
 var server = require('./config/sensorserver')
 var poster = require('./poster')
+var io = require('socket.io').listen(8080);
+
+var globalSocket;
+
+var notes = io
+  .of('/notes')
+    .on('connection', function (socket) {
+      globalSocket = socket
+});
 
 var scaleFactor = 5;
 
-var readSensor = function(sensor) { 
+var readSensor = function(sensor) {
   if(!sensor) return
   console.log("readSensor from sensor " + JSON.stringify(sensor))
   var logslider = require('./logslider')(sensor.lowerLimit,sensor.upperLimit,1,100);
@@ -15,7 +24,7 @@ var readSensor = function(sensor) {
   var value;
   if(sensors[sensor.name].driver=='analogSensor') {
     value = sensor.analogRead();
-  } 
+  }
 
   if(sensors[sensor.name].driver=='digitalSensor') {
     value = sensor.digitalRead(function(){
@@ -64,7 +73,7 @@ var readAllSensors = function(my) {
     if(!sensors.hasOwnProperty(sensorName)) continue
     if(sensors[sensorName].enabled) {
       val = readSensor(my[sensorName])
-      // console.log('value => ', val);     
+      // console.log('value => ', val);
       postSensorReading(sensor,val)
     }
   }
@@ -83,6 +92,12 @@ var postSensorReading = function(sensor,reading) {
       // console.log("error posting: " + JSON.stringify(err))
     }
   })
+
+  if (globalSocket) {
+    globalSocket.emit('noteReceived', {
+      '/notes': note
+    });
+  }
 }
 
 var getDevices = function() {
@@ -118,4 +133,3 @@ Cylon.robot({
 })
 
 Cylon.start()
-
