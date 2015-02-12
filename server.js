@@ -4,7 +4,6 @@ var Cylon = require('cylon')
 var config = require('./config/config')
 var sensors = require('./config/sensors')
 var outputs = require('./config/outputs')
-var serverConfig = require('./config/sensorserver')
 
 var staticServer = require('http').Server(app)
 staticServer.listen(8080)
@@ -37,9 +36,9 @@ Cylon.robot({
       sensorComponent.readAllSensors(my);
     })
   }
-}).on('ready',function(my) { 
+}).on('ready',function(my) {
   buttonComponent.registerCompositionHandler(my)
-}).on('ready',function(my) { 
+}).on('ready',function(my) {
   buttonComponent.registerSocketHandlers(my)
 })
 

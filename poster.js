@@ -1,5 +1,5 @@
 var rest = require('restler')
-var server = require('./config/sensorserver')
+var server = require('./config/ensembleserver')
 
 //add a note to a composition
 var postNote = function(note,cb) {
