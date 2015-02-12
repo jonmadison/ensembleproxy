@@ -5,26 +5,26 @@ module.exports =  {
     "driver":"analogSensor",
     "lowerLimit":0,
     "upperLimit":10000,
-    "enabled":true
+    "enabled":false
   },
   "pressure1": {
     "description":"homemade pressure sensor",
-    "pin": 1 ,
+    "pin": 0 ,
     "driver":"analogSensor",
     "lowerLimit": 0,
     "upperLimit": 1100,
     "invert":true,
-    "enabled":true
+    "enabled":false
   },
   "button2": {
     "description":"my button demo",
-    "pin": 6,
+    "pin": 2,
     "driver": "button",
     "enabled": true
   },
   "pressure2": {
     "description":"homemade pressure sensor",
-    "pin": 2 ,
+    "pin": 0 ,
     "driver":"analogSensor",
     "lowerLimit": 0,
     "upperLimit": 1100,
@@ -33,7 +33,7 @@ module.exports =  {
   },
   "pressure3": {
     "description":"homemade pressure sensor",
-    "pin": 3 ,
+    "pin": 0 ,
     "driver":"analogSensor",
     "lowerLimit": 0,
     "upperLimit": 1100,
@@ -42,7 +42,7 @@ module.exports =  {
   },
   "pressure4": {
     "description":"homemade pressure sensor",
-    "pin": 4 ,
+    "pin": 0 ,
     "driver":"analogSensor",
     "lowerLimit": 0,
     "upperLimit": 1100,

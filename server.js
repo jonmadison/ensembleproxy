@@ -4,6 +4,7 @@ var sensors = require('./config/sensors')
 var outputs = require('./config/outputs')
 var server = require('./config/sensorserver')
 var poster = require('./poster')
+var guid = require('easy-guid')
 
 var scaleFactor = 5;
 
@@ -110,6 +111,18 @@ Cylon.robot({
 }).on('ready',function(sensor){
     sensor.button2.on('push', function(){
       console.log("button pressed on")
+      // post new composition
+      var composition = {
+          "name": guid.new(16),
+          "tempo": 80,
+          "created_by": 1
+      }
+      poster.postComposition(composition, function(err) {
+        if(err) {
+          return console.log("couldn't post new composition")
+        }
+        console.log("new composition created")
+      });
     });
 
     sensor.button2.on('release', function() {
