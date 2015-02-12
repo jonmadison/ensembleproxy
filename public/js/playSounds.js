@@ -69,7 +69,9 @@ $('#stream-info').hide();
 $('.listen-button').on('click', function(e) {
   e.preventDefault();
   var ip = $('.listen-ip').val() || '10.65.20.53';
-  console.log('ip is ' + ip);
+  console.log('ip is ' + ip)
+
+  var shouldStart = true;;
 
   var notes = io.connect('http://'+ip+':8080/notes');
   notes.on('connect', function () {
@@ -79,10 +81,11 @@ $('.listen-button').on('click', function(e) {
     inv.start()
   });
 
-  notes.on('tempo', function (tempo) {
-    var value = tempo.value;
-    $('#tempo').text(value.toFixed(1));
-    inv.set({interval: value})
-    console.log(tempo);
+  notes.on('toggleComposition', function (value) {
+    if (shouldStart == true) {
+      inv.start();
+    } else {
+      inv.stop();
+    }
   });
 });
