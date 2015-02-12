@@ -24,7 +24,13 @@ var readSensor = function(sensor) {
   }
 
   if(sensor[sensor.name].driver=='button') {
-    
+    sensor.touch.on('press', function(){
+      console.log("button pressed on")
+    });
+
+    my.touch.on('release', function() {
+      console.log("button pressed off")
+    });
   }
 
   // var noteValue = logslider.logslider(value)
