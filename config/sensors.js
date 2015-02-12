@@ -16,11 +16,10 @@ module.exports =  {
     "invert":true,
     "enabled":true
   },
-  {
-    "button2": {
+  "button2": {
     "description":"my button demo",
     "pin": 6,
-    "driver": button,
+    "driver": "button",
     "enabled": true
   },
   "pressure2": {
