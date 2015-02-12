@@ -1,3 +1,5 @@
+var express = require('express');
+var app = express();
 var Cylon = require('cylon')
 var config = require('./config/config')
 var sensors = require('./config/sensors')
@@ -5,14 +7,19 @@ var outputs = require('./config/outputs')
 var server = require('./config/sensorserver')
 var poster = require('./poster')
 var guid = require('easy-guid')
-var io = require('socket.io').listen(8080);
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
 var globalSocket;
 
+server.listen(8080);
+
+app.use(express.static(__dirname + '/public'));
+
 var notes = io
   .of('/notes')
-    .on('connection', function (socket) {
-      globalSocket = socket
+  .on('connection', function (socket) {
+     globalSocket = socket
 });
 
 var scaleFactor = 5;
@@ -134,13 +141,13 @@ Cylon.robot({
 }).on('ready', function(sensor) {
   sensor.button2.on('push', function(value) {
     if (globalSocket) {
-      globalSocket.emit('noteReceived', {value: 1000});
+      globalSocket.emit('noteReceived', {value: "BPM128 L16"});
     }
   });
 
   sensor.button2.on('release', function(value) {
     if (globalSocket) {
-      globalSocket.emit('noteReceived', {value: 500});
+      globalSocket.emit('noteReceived', {value: "BPM128 L8"});
     }
   });
 })
