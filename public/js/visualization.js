@@ -31,7 +31,8 @@ var canvasCtx = canvas.getContext('2d');
 
 oscillator.type = 0; // sine wave
 oscillator.frequency.value = initialFreq; // value in hertz
-oscillator.start();
+
+// oscillator.start();
 
 gainNode.gain.value = initialVol;
 

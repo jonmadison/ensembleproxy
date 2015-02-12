@@ -62,16 +62,24 @@ T("audio").load("./drumkit.wav", function() {
       lead.freq.linTo(noteNum.midicps() * 2, "100ms");
     }
     arp.noteOn(noteNum + 24, 60);
-  }).start();
+  });
 });
 
-  var notes = io.connect('http://10.65.19.166:8080/notes');
+$('.listen-button').on('click', function(e) {
+  e.preventDefault();
+  var ip = $('.listen-ip').val();
+  console.log('ip is ' + ip);
+
+  var notes = io.connect('http://'+ip+':8080/notes');
     notes.on('connect', function () {
     console.log('connected to socket');
+    inv.start()
   });
 
   notes.on('noteReceived', function (note) {
-                        var value = note.value;
-                        inv.set({interval: value})
+    var value = note.value;
+    inv.set({interval: value})
     console.log(note);
   });
+});
+
