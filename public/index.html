@@ -19,10 +19,14 @@
         </div>
 
     <div class="nav">
-      <ul >
+      <ul>
         <li class="active"><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
-        <li><a href="listen.html">Listen</a></li>
+        <li>
+            <input type="text" class="listen-ip">
+            <button type="button" class="btn btn-primary listen-button">Listen</button>
+        </li>
+        <li class="connected-status">Not Connected</li>
       </ul>
 
     </div>
@@ -44,6 +48,12 @@
 
   <div class="footer">Copyright@2015</div>
 
+  <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
   <script src="js/visualization.js"></script>
+
+  <script src="js/socket.io.js"></script>
+  <script src="js/timbre.dev.js"></script>
+  <script src="js/subcollider.js"></script>
+  <script src="js/playSounds.js"></script>
 </body>
 </html>
