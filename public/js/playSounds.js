@@ -64,6 +64,8 @@ T("audio").load("./drumkit.wav", function() {
   });
 });
 
+$('#stream-info').hide();
+
 $('.listen-button').on('click', function(e) {
   e.preventDefault();
   var ip = $('.listen-ip').val();
@@ -73,11 +75,13 @@ $('.listen-button').on('click', function(e) {
   notes.on('connect', function () {
     console.log('connected to socket');
     $('.connected-status').text('Connected').addClass('connected');
+    $('#stream-info').show();
     inv.start()
   });
 
   notes.on('tempo', function (tempo) {
     var value = tempo.value;
+    $('#tempo').text(value.toFixed(1));
     inv.set({interval: value})
     console.log(tempo);
   });
