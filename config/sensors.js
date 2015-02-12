@@ -48,11 +48,5 @@ module.exports =  {
     "upperLimit": 1100,
     "invert":true,
     "enabled":false
-  },
-  "sonic": {
-    "description":"sonic sensor",
-    "enabled":false,
-    "pins": [ 10,11 ],
-    "driver":"analogSensor"
   }
 }

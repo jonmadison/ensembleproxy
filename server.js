@@ -121,7 +121,8 @@ Cylon.robot({
       var composition = {
           "name": guid.new(16),
           "tempo": 80,
-          "created_by": 1
+          "created_by": 1,
+          "created_at": (new Date()).getTime()
       }
       poster.postComposition(composition, function(err) {
         if(err) {
