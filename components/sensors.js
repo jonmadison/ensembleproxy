@@ -1,6 +1,6 @@
 var poster = require('../poster')
 
-module.exports = function(sensors,socket) {
+module.exports = function(sensors) {
   var scaleFactor = 5;
 
   var postSensorReading = function(sensor,reading) {
