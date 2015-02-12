@@ -5,7 +5,7 @@ module.exports =  {
     "driver":"analogSensor",
     "lowerLimit":0,
     "upperLimit":10000,
-    "enabled":true
+    "enabled":false
   },
   "pressure1": {
     "description":"homemade pressure sensor",
@@ -14,11 +14,11 @@ module.exports =  {
     "lowerLimit": 0,
     "upperLimit": 1100,
     "invert":true,
-    "enabled":true
+    "enabled":false
   },
   "button2": {
     "description":"my button demo",
-    "pin": 6,
+    "pin": 2,
     "driver": "button",
     "enabled": true
   },

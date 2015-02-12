@@ -1,11 +1,17 @@
-<script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
+<script src="./socket.io.js"></script>
+<script src="./timbre.dev.js"></script>
+
 <script>
+  var sin = T("sin", {freq:660, mul:0.5}).play();
+
   var notes = io.connect('http://10.65.19.166:8080/notes');
   notes.on('connect', function () {
     console.log('connected to socket');
   });
 
   notes.on('noteReceived', function (note) {
+    var value = note.value;
+    sin.set({freq: value});
     console.log(note);
   });
 </script>
