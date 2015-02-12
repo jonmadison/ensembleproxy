@@ -78,7 +78,6 @@ $('.listen-button').on('click', function(e) {
     console.log('connected to socket');
     $('.connected-status').text('Connected').addClass('connected');
     $('#stream-info').show();
-    inv.start()
   });
 
   notes.on('toggleComposition', function (value) {
