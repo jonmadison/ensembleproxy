@@ -10,8 +10,9 @@ body{
 
 }
 
-.header, .footer,.intro,.team{
-  padding:5%;
+.header, .footer,.intro,.team, .project{
+  padding: 5%;
+  padding-bottom: 0;
   display:block;
 }
 .header{
@@ -58,16 +59,19 @@ a:active{
 .signin{
   display: inline-block;
   float:right;
-
+  padding: 10px;
+  background-color: #f8f8f8;
+  border: 2px solid #e4e4e4;
 }
 
 .signin img{
   content: url("images/profile.png");
   width:56px;
-  padding-right: 10px;
 
 }
-
+.signin #username {
+  display: block;
+}
 /*
 .header{
     background: url(images/intelcopy.jpg) no-repeat center;
@@ -86,7 +90,14 @@ a:active{
     display: inline-block;
     padding-right: 40px;
 }
-
+.listen-live-buttons ul {
+  padding: 0;
+}
+.listen-live-buttons li {
+    list-style-type: none;
+    display: inline-block;
+    padding-right: 20px;
+}
 
 /*
   canvas
@@ -94,12 +105,14 @@ a:active{
 canvas{
 
   border: 1px solid;
-  position: absolute;
-  top:180px;
+  position: relative;
+  top:5px;
   margin-left: 10%;
-  width: 50%;
+  width: 100%;
   height:300px;
-  background-color: black;
+  background-color: white;
+  border: none;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 
 }
 .outer{
@@ -107,8 +120,8 @@ canvas{
   width:25%;
   padding-left: 5%;
   padding-top: 2%;
-    max-height: 300px;
-    overflow:hidden;
+  max-height: 300px;
+  overflow:hidden;
 }
 
 ::-webkit-scrollbar {
@@ -129,11 +142,22 @@ canvas{
 }
 
 .composition {
-  height:150px;
+  height:30px;
   border: 1px solid;
   margin-bottom: 5%;
-  background-color: black;
+  background-color:#f0dcdc ;
+  border: none;
+  color: black;
+  padding-left: 10px;
+  padding-top: 5px;
+
 }
+
+.left .active{
+  background-color: #fab4b4;
+}
+
+
 
 /*
   about page
@@ -185,4 +209,15 @@ border-radius: 64px;
   }
 }
 
-
+.connected-status {
+  background-color: #FB3D3D;
+  border-radius: 4px;
+  border: 1px solid black;
+  font-size: 14px;
+  text-align: center;
+  padding: 6px;
+  width: 150px;
+}
+.connected {
+  background-color: #2DE158;
+}
