@@ -1,4 +1,6 @@
 # ensemble proxy
+
+[![Join the chat at https://gitter.im/wearensemble/sensorproxy](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/wearensemble/sensorproxy?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 this code runs on your edison. it expects you have sensors actually set up on your board, and configured in ./configure/sensors.js
 
 The aim is to make it easy to set up sensors & actuators for reading, and do something with the data (you choose, except for the socket io part. that comes for free). in our case, we post info to a server we set up in the cloud. see components/ directory for our current method for wiring actions to
